@@ -1,8 +1,6 @@
 
 from PathwayHandling import PathwayHandler
 
-from Sight import Sight
-
 class BigBrain:
 
   def __init__(self):
@@ -12,10 +10,11 @@ class BigBrain:
 
 if __name__ == '__main__':
 
+  from Sight import Sight
+  
   print("Brain Testing")
   brain = BigBrain()
-
-  sight = Sight(brain.pathway_handler, brain.memory)
+  sight_module = Sight(brain.pathway_handler, brain.memory)
 
 
 

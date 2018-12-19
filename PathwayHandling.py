@@ -14,7 +14,21 @@ ego_threshold = 3.0
 superego_uptick = 0.2
 superego_threshold = 4.0
 
-
+'''
+The pathway handler is a vague implementation of neuron pathways.
+This allows for general inputs (sight, touch, thought, etc) to be whittled down
+into specific outputs. It allows pathways to hook into each other at different times,
+i.e., if you had a pathway that classified objects you could pull that raw classification as
+an input to your own pathway, such as a reflex to spiders or something.
+The handler differs from neural pathways in a couple ways. Firstly, we can design functions
+to handle things that might take many, many neurons. We can utilize machine learning mimic
+heuristics, or wifi to access higher knowledge, all in one 'node'. Secondly, we can implement
+negative feedback using pathway terminals rather than constructing a backwards loop.
+For example, if I could mimic reflexive scratching with an 'itch_detection' node listening
+to the termination of the 'scratch' node (the scratch being performed).
+The idea is to streamline the coding of an explicit general AI. It may take a lot of code but with good
+design should quickly become natural.
+'''
 
 
 class PathwayHandler:
@@ -24,6 +38,8 @@ class PathwayHandler:
     self.node_values = {}
     self.in_refractory_period = {}
 
+  # Connect a pathway to a node with given threshold and refractory period
+  # Pathway should take in a single string, specifying the node that notified the pathway
   def connectToNode(self, node, pathway, threshold=1.0, refractory_period=1.0, reset_on=None):
     self.node_values[node] = self.node_values.get(node, 0)
     self.in_refractory_period[pathway] = False
@@ -34,29 +50,35 @@ class PathwayHandler:
       self.resetValue(node)
     def notify(value):
       if threshold <= value and not self.in_refractory_period[pathway]:
-        pathway()
+        pathway(node)
         self.in_refractory_period[pathway] = True
         threading.Timer(refractory_period, refractory_reset).start()
-    if reset_on != None:
+    if reset_on == True:
       self.pathway_nodes.listen(reset_on, resetter)
     self.pathway_nodes.listen(node, notify)
 
+  # Modify activity value at node
   def modifyValue(self, node, delta):
     self.node_values[node] = max(self.node_values.get(node, 0) + delta, 0)
     self.pathway_nodes.emit(node, data=self.node_values[node])
 
+  # Reset activity value at a node
   def resetValue(self, node):
     self.node_values[node] = 0
 
+  # Set activity value at a node
   def setValue(self, node, value):
     self.node_values[node] = value
 
+  # Signal termination of a pathway
   def emitPathwayTerminal(self, terminal):
     self.pathway_nodes.emit(terminal)
 
+  # Degrade node towards inactivity
   def degrade(self, node):
     self.modifyValue(node, -1 * degrade_delta)
 
+  # General degrade
   def degrade(self):
     for node, value in self.node_values.items():
       self.degrade(node)

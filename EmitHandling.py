@@ -25,5 +25,6 @@ class Handler:
       for _, targets in self.listeners.items():
         targets.remove(target)
 
+
 if __name__ == '__main__':
   print("Emitter Testing")
