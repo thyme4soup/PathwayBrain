@@ -29,9 +29,7 @@ if __name__ == '__main__':
     coords[orientation % 2] += (-1) ** ((orientation // 2) + 1)
   
   def print_arena():
-    for i in range(len(arena)):
-      sys.stdout.write("\033[F")
-      
+    print('\n\n')
     for y, row in enumerate(arena):
       row_cpy = [c for c in row]
       if coords[1] == y:
