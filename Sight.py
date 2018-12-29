@@ -12,7 +12,6 @@ class Sight:
   def __init__(self, pathways, memory):
     self.pathways = pathways
     self.memory = memory
-
     self.pathways.connectToNode(sight_node, self.handle_sight)
     
     # Every raw_sight_updated notification will reset the node
@@ -32,11 +31,23 @@ class Sight:
     
     # Act on parsed data
     if face_detected:
+    self.pathways.connectToNode("raw_sight_updated", self.handle_sight, refractory_period=0.05)
+    self.pathways.connectToNode(face_detected_node, self.face_handler, refractory_period=10)
+    print("Sight.py successful")
+
+  def handle_sight(self, data):
+    face_detected = False
+    wall_detected = False
+    if face_detected or self.memory.get("raw_sight", None) == 5:
       self.pathways.modifyValue(face_detected_node, PathwayHandling.ego_uptick)
       print("face detected")
     if wall_detected:
       self.pathways.modifyValue(wall_detected_node, PathwayHandling.id_uptick)
       print("wall detected")
+
+  def face_handler(self, data):
+    print("hello!")
+    self.pathways.resetValue(face_detected_node)
 
 if __name__ == '__main__':
 

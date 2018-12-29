@@ -44,16 +44,22 @@ class PathwayHandler:
     self.node_values[node] = self.node_values.get(node, 0)
     self.in_refractory_period[pathway] = False
 
-    def refractory_reset():
+    def refractoryReset():
       self.in_refractory_period[pathway] = False
+      
     def resetter(_data):
       self.resetValue(node)
+
     def notify(value):
       if threshold <= value and not self.in_refractory_period[pathway]:
         pathway(node)
         self.in_refractory_period[pathway] = True
         threading.Timer(refractory_period, refractory_reset).start()
     if reset_on == True:
+        pathway(value)
+        self.in_refractory_period[pathway] = True
+        threading.Timer(refractory_period, refractoryReset).start()
+    if reset_on != None:
       self.pathway_nodes.listen(reset_on, resetter)
     self.pathway_nodes.listen(node, notify)
 
@@ -64,11 +70,12 @@ class PathwayHandler:
 
   # Reset activity value at a node
   def resetValue(self, node):
-    self.node_values[node] = 0
+    self.setValue(node, 0)
 
   # Set activity value at a node
   def setValue(self, node, value):
     self.node_values[node] = value
+    self.pathway_nodes.emit(node, data=self.node_values[node])
 
   # Signal termination of a pathway
   def emitPathwayTerminal(self, terminal):
@@ -82,6 +89,13 @@ class PathwayHandler:
   def degrade(self):
     for node, value in self.node_values.items():
       self.degrade(node)
+
+  def degrade(self, node=None):
+    if node:
+      self.modifyValue(node, -1 * degrade_delta)
+    else:
+      for node, value in self.node_values.items():
+        self.degrade(node=node)
 
 if __name__ == '__main__':
 
