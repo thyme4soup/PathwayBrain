@@ -44,7 +44,7 @@ class PathwayHandler:
     self.node_values[node] = self.node_values.get(node, 0)
     self.in_refractory_period[pathway] = False
 
-    def refractoryReset():
+    def refractory_reset():
       self.in_refractory_period[pathway] = False
       
     def resetter(_data):
@@ -55,10 +55,7 @@ class PathwayHandler:
         pathway(node)
         self.in_refractory_period[pathway] = True
         threading.Timer(refractory_period, refractory_reset).start()
-    if reset_on == True:
-        pathway(value)
-        self.in_refractory_period[pathway] = True
-        threading.Timer(refractory_period, refractoryReset).start()
+
     if reset_on != None:
       self.pathway_nodes.listen(reset_on, resetter)
     self.pathway_nodes.listen(node, notify)
