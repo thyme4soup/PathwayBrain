@@ -20,13 +20,13 @@ def serialWriteByte(token, var=""):
     if token == 'c' or token == 't':  # data
         instrStr = token + str(var[0]) + ',' + str(var[1]) + '\n'
     elif token == 'l':  # use binary to reduce packet size
-        ser.write('l' + str(len(var)))
+        ser.write(('l' + str(len(var))).encode())
         instrStr = struct.pack('b' * len(var), *var)
     elif token == 'w' or token == 'k':
         instrStr = token + var + "\n"
     else:
         instrStr = token
-    ser.write(instrStr)
+    ser.write(instrStr.encode())
 
 
 if __name__ == '__main__':

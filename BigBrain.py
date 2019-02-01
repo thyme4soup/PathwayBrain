@@ -12,7 +12,6 @@ class BigBrain:
   def __init__(self):
     self.pathway_handler = PathwayHandler()
     self.memory = {}
-    self.serial = open("serial_feed.txt", "r")
 
   def loop(self):
     serial_message = self.serial.readline().strip()
