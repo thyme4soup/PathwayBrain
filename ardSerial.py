@@ -1,10 +1,18 @@
 #!/usr/bin/python
-import serial
-import struct
-import sys
-import time
-import math
-import numpy as np
+import logging
+logging.basicConfig(filename='ardSerial.log',level=logging.DEBUG)
+
+try:
+    import serial
+    import struct
+    import sys
+    import time
+    import math
+    import numpy as np
+except Exception as e:
+    logging.debug('Error importing during library imports:\n{}'.format(str(e)))
+
+
 ser = serial.Serial(
     port='/dev/ttyS0',
     baudrate=57600,
@@ -21,7 +29,8 @@ def serialWriteByte(token, var=""):
         instrStr = token + str(var[0]) + ',' + str(var[1]) + '\n'
     elif token == 'l':  # use binary to reduce packet size
         ser.write(('l' + str(len(var))).encode())
-        instrStr = struct.pack('b' * len(var), *var)
+        print(var)
+        instrStr = struct.pack('b' * len(var), *[int(x) for x in var])
     elif token == 'w' or token == 'k':
         instrStr = token + var + "\n"
     else:

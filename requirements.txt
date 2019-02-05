@@ -1,3 +1,4 @@
 ### requirements.txt for PathwayBrain ###
 
-serial >= 0.0.97
+pyserial
+numpy
