@@ -32,10 +32,10 @@ def serialWriteByte(token, var=""):
         print(var)
         instrStr = struct.pack('b' * len(var), *[int(x) for x in var])
     elif token == 'w' or token == 'k':
-        instrStr = token + var + "\n"
+        instrStr = (token + var + "\n").encode()
     else:
         instrStr = token
-    ser.write(instrStr.encode())
+    ser.write(instrStr)
 
 
 if __name__ == '__main__':
