@@ -42,19 +42,26 @@ if __name__ == '__main__':
     serialWriteByte('k',"sit")
     time.sleep(2)
     
+    def write_read(token, var=""):
+    
+        serialWriteByte(token, var)
+      
+        s = ""
+        while ser.in_waiting:
+            x = ser.readline()
+            if x != "":
+                s += "\n"
+        return s
+    
     while True:
         for a in np.arange(0, 2 * math.pi, 0.2):
-            serialWriteByte('l', [0, math.sin(a) * 30])
-            serialWriteByte('l', [1, math.cos(a) * 30])
-            serialWriteByte('l', [2, math.cos(a) * 30])
-            serialWriteByte('l', [3, math.cos(a) * 30])
-            serialWriteByte('l', [4, math.cos(a) * 30])
+            
+            print(write_read('l', [0, math.cos(a) * 30]))
+            print(write_read('l', [1, math.cos(a) * 30]))
+            print(write_read('l', [2, math.cos(a) * 30]))
+            print(write_read('l', [3, math.cos(a) * 30]))
             time.sleep(0.04)
 
-    while ser.in_waiting:
-        x = ser.readline()
-        if x != "":
-            print (x + "\n")
 
             
             
