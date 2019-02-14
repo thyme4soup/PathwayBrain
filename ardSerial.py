@@ -39,8 +39,10 @@ def serialWriteByte(token, var=""):
 
 
 if __name__ == '__main__':
+    serialWriteByte('k', "zero")
+    time.sleep(1)
     serialWriteByte('k',"sit")
-    time.sleep(2)
+    time.sleep(1)
     
     def write_read(token, var=""):
     
