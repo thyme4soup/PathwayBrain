@@ -31,7 +31,7 @@ def serialWriteByte(token, var=""):
         ser.write(('l' + str(len(var))).encode())
         print(var)
         instrStr = struct.pack('b' * len(var), *[int(x) for x in var])
-    elif token == 'w' or token == 'k':
+    elif token == 'w' or token == 'k' or token == 'm':
         instrStr = (token + var + "\n").encode()
     else:
         instrStr = token
@@ -56,9 +56,11 @@ if __name__ == '__main__':
         return s
     
     while True:
+        joint = 0
         for a in np.arange(0, 2 * math.pi, 0.2):
             # print(write_read('l', [0, math.cos(a) * 30]))
             # print(write_read('l', [1, math.cos(a) * 30]))
-            print(write_read('l', [0, math.cos(a) * 30]))
+            print(write_read('m', "{} {}".format(joint, math.cos(a) * 30))
             time.sleep(0.04)
+            
             
