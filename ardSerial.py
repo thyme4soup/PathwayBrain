@@ -56,17 +56,10 @@ if __name__ == '__main__':
         return s
     
     while True:
-        for a in np.arange(0, 2 * math.pi, 0.2):
-            
-            # print(write_read('l', [0, math.cos(a) * 30]))
-            # print(write_read('l', [1, math.cos(a) * 30]))
-            print(write_read('l', [2, math.cos(a) * 30]))
-            print(write_read('l', [3, math.cos(a) * 30]))
-            print(write_read('l', [4, math.cos(a) * 30]))
-            print(write_read('l', [5, math.cos(a) * 30]))
-            time.sleep(0.04)
-
-
-            
-            
+        for joint in np.arange(0, 10):
+            for a in np.arange(0, 2 * math.pi, 0.2):
+                # print(write_read('l', [0, math.cos(a) * 30]))
+                # print(write_read('l', [1, math.cos(a) * 30]))
+                print(write_read('l', [joint, math.cos(a) * 30]))
+                time.sleep(0.04)
             
