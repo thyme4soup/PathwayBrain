@@ -56,7 +56,7 @@ if __name__ == '__main__':
     for i in range(3):
         joint = 0
         for a in np.arange(0, 2 * math.pi, 0.2):
-            logging.debug(write_read('m', "{} {}".format(joint, math.cos(a) * 30))
+            logging.debug(write_read('m', "{} {}".format(joint, math.cos(a) * 30)))
             time.sleep(0.04)
             
     logging.debug("Successfully terminated")
