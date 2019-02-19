@@ -1,16 +1,10 @@
 #!/usr/bin/python
-import logging
-logging.basicConfig(filename='ardSerial.log',level=logging.DEBUG)
-
-try:
-    import serial
-    import struct
-    import sys
-    import time
-    import math
-    import numpy as np
-except Exception as e:
-    logging.debug('Error importing during library imports:\n{}'.format(str(e)))
+import serial
+import struct
+import sys
+import time
+import math
+import numpy as np
 
 
 ser = serial.Serial(
@@ -48,6 +42,8 @@ def write_read(token, var=""):
 
 
 if __name__ == '__main__':
+
+    print("Starting ardSerial...")
     serialWriteByte('k', "zero")
     time.sleep(1)
     serialWriteByte('k',"sit")
@@ -56,9 +52,8 @@ if __name__ == '__main__':
     for i in range(3):
         joint = 0
         for a in np.arange(0, 2 * math.pi, 0.2):
-            logging.debug(write_read('m', "{} {}".format(joint, math.cos(a) * 30)))
             time.sleep(0.04)
             
-    logging.debug("Successfully terminated")
+    print("ardSerial finished")
             
             
