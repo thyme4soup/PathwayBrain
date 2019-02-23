@@ -44,12 +44,12 @@ def write_read(token, var=""):
 if __name__ == '__main__':
 
     print("Starting ardSerial...")
-    serialWriteByte('k', "zero")
-    time.sleep(1)
     serialWriteByte('k',"sit")
     time.sleep(1)
+    serialWriteByte('k', "zero")
+    time.sleep(1)
     
-    for i in range(3):
+    for i in range(10):
         joint = 0
         for a in np.arange(0, 2 * math.pi, 0.2):
             serialWriteByte('l', [joint, math.sin(a) * 30])
