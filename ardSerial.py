@@ -40,7 +40,12 @@ def write_read(token, var=""):
             s += "\n"
     return s
 
-
+    
+'''
+Joint references:
+  1: head pitch
+  2: 
+'''
 if __name__ == '__main__':
 
     print("Starting ardSerial...")
