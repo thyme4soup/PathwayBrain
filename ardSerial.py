@@ -52,6 +52,7 @@ if __name__ == '__main__':
     for i in range(3):
         joint = 0
         for a in np.arange(0, 2 * math.pi, 0.2):
+            serialWriteByte('l', [joint, math.sin(a) * 30])
             time.sleep(0.04)
             
     print("ardSerial finished")
