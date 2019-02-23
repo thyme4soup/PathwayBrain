@@ -43,7 +43,7 @@ def write_read(token, var=""):
     
 '''
 Joint references:
-  0: 
+  0: leg?
   1: head pitch
   2: 
 '''
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     time.sleep(1)
     
     for i in range(10):
-        joint = 0
+        joint = 2
         for a in np.arange(0, 2 * math.pi, 0.2):
             serialWriteByte('l', [joint, math.sin(a) * 30])
             time.sleep(0.04)
