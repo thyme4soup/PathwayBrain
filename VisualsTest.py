@@ -28,9 +28,7 @@ class VisionTracker:
     self.cov = (rows/2, cols/2)
     self.dirtied = []
 
-    for r in range(rows):
-      for c in range(cols):
-        self.dirty(r, c)
+    self.dirty_all()
 
   # For debugging
   def visualize(self):
@@ -45,6 +43,11 @@ class VisionTracker:
     else:
       self.dirtied.append((r, c))
       return 0
+
+  def dirty_all(self):
+    for row in range(len(self.fov)):
+      for col in range(len(self.fov[row])):
+        self.dirty(row, col)
 
   def index_to_coords(self, r, c):
     return (
