@@ -40,18 +40,26 @@ def write_read(token, var=""):
             s += "\n"
     return s
 
-
+    
+'''
+Joint references:
+  0: leg?
+  1: head pitch
+  2: tail
+  3: 
+'''
 if __name__ == '__main__':
 
     print("Starting ardSerial...")
-    serialWriteByte('k', "zero")
-    time.sleep(1)
     serialWriteByte('k',"sit")
     time.sleep(1)
+    serialWriteByte('k', "zero")
+    time.sleep(1)
     
-    for i in range(3):
-        joint = 0
+    for i in range(10):
+        joint = 3
         for a in np.arange(0, 2 * math.pi, 0.2):
+            serialWriteByte('l', [joint, math.sin(a) * 30])
             time.sleep(0.04)
             
     print("ardSerial finished")
