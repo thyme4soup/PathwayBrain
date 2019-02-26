@@ -1,7 +1,12 @@
-
+'''
+TODO:
+- Move to base control?
+- Needs to provide fov and coords for next dirty coords
+'''
 import math
 import random
 import time
+import threading
 
 class VisionTracker:
 
@@ -27,6 +32,8 @@ class VisionTracker:
     self.fov = [[None for j in range(cols)] for i in range(rows)]
     self.cov = (rows/2, cols/2)
     self.dirtied = ([], [])
+    self.fov_lock = threading.Lock()
+    self.dirtied_lock = threading.Lock()
 
     self.dirty_all()
 
@@ -43,7 +50,10 @@ class VisionTracker:
       return 1
     else:
       y, p = self.index_to_coords(r, c)
-      self.dirtied[self.is_prio(y, p)].append((r, c))
+      prio = self.is_prio(y, p)
+      if not (r, c) in self.dirtied[prio]:
+        with self.dirtied_lock:
+          self.dirtied[prio].append((r, c))
       return 0
 
   def dirty_all(self):
@@ -80,27 +90,29 @@ class VisionTracker:
     if len(self.dirtied[1]) > 0:
       closest = get_closest(self.coords_to_index(cur_yaw, cur_pitch), self.dirtied[1])
       r, c = random.choice(closest)
-      self.dirtied[1].remove((r,c ))
       return self.index_to_coords(r, c)
     # non-prio
     if len(self.dirtied[0]) > 0:
       closest = get_closest(self.coords_to_index(cur_yaw, cur_pitch), self.dirtied[0])
       r, c = random.choice(closest)
-      self.dirtied[0].remove((r, c))
       return self.index_to_coords(r, c)
     else:
       r, c = self.cov
       return self.index_to_coords(r, c)
 
   def update_val(self, cur_yaw, cur_pitch, distance):
-    print(cur_pitch, cur_yaw)
+    # Clean spot
     r, c = self.coords_to_index(cur_yaw, cur_pitch)
-    print(r, c)
+    with self.dirtied_lock:
+      self.dirtied[self.is_prio(cur_yaw, cur_pitch)].remove((r, c))
+
+    # Update and see if spot dirtied surroundings
     old = self.fov[r][c]
     if old and abs(distance - old) > self.repaint_tolerance:
       for nr, nc in [(r-1, c), (r+1, c), (r, c-1), (r, c+1)]:
         self.dirty(nr, nc)
-    self.fov[r][c] = distance
+    with self.fov_lock:
+      self.fov[r][c] = distance
 
   def is_prio(self, yaw, pitch):
     real_cov = self.index_to_coords(self.cov[0], self.cov[1])
@@ -111,13 +123,23 @@ class VisionTracker:
     return f_yp <= 1 or pitch <= (self.yaw_max - self.yaw_min) / 8 + self.yaw_min
 
 if __name__ == '__main__':
-  vt = VisionTracker((-10, 10), (-10, 10), repaint_tolerance=2)
+  vt = VisionTracker(
+    (-30, 30),
+    (-30, 30),
+    yaw_step = 5,
+    pitch_step = 5,
+    repaint_tolerance=2)
+
   vt.visualize()
 
   ny, np = vt.get_next_target(0, 0)
-  for i in range(1000):
-    vt.update_val(ny, np, random.randint(1, 5))
-    ny, np = vt.get_next_target(ny, np)
-    vt.visualize()
-    time.sleep(0.2)
+  while True:
+    for i in range(100):
+      vt.update_val(ny, np, random.randint(1, 5))
+      ny, np = vt.get_next_target(ny, np)
+      vt.visualize()
+      time.sleep(0.2)
+    vt.dirty_all()
+
+
 
