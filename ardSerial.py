@@ -65,7 +65,8 @@ if __name__ == '__main__':
   for i in range(10):
     joint = 3
     for a in np.arange(0, 2 * math.pi, 0.2):
-      angles = [(0, math.sin(a) * 30)]
+      angle = math.sin(a) * 30
+      angles = [(0, angle), (1, angle), (2, angle)]
       serialWriteByte('l', tup_to_angles(angles))
       time.sleep(0.04)
           
