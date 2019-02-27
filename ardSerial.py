@@ -67,7 +67,7 @@ if __name__ == '__main__':
     for a in np.arange(0, 2 * math.pi, 0.2):
       angle = math.sin(a) * 30
       angles = [(0, angle), (1, angle), (2, angle)]
-      serialWriteByte('l', tup_to_angles(angles))
+      serialWriteByte('m', "0 {}".format(angle))
       time.sleep(0.04)
           
   print("ardSerial finished")
