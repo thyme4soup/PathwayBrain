@@ -57,6 +57,8 @@ Joint references:
 if __name__ == '__main__':
 
   print("Starting ardSerial...")
+  write_read('k', "balance")
+  '''
   write_read('k',"sit")
   time.sleep(1)
   write_read('k', "zero")
@@ -68,7 +70,11 @@ if __name__ == '__main__':
         angle = math.sin(a) * 30
         write_read('m', "{} {}".format(joint, angle))
         time.sleep(0.04)
+    write_read('k',"sit")
+    time.sleep(1)
     write_read('k', "zero")
+    time.sleep(1)
+  '''
 
   print("ardSerial finished")
             
