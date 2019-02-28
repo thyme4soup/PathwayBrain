@@ -62,7 +62,7 @@ if __name__ == '__main__':
   serialWriteByte('k', "zero")
   time.sleep(1)
   
-  for joint in range(10):
+  for joint in range(17):
     for i in range(4):
       for a in np.arange(0, 2 * math.pi, 0.2):
         angle = math.sin(a) * 30
