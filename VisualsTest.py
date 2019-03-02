@@ -104,7 +104,10 @@ class VisionTracker:
     # Clean spot
     r, c = self.coords_to_index(cur_yaw, cur_pitch)
     with self.dirtied_lock:
-      self.dirtied[self.is_prio(cur_yaw, cur_pitch)].remove((r, c))
+      try:
+        self.dirtied[self.is_prio(cur_yaw, cur_pitch)].remove((r, c))
+      except:
+        pass
 
     # Update and see if spot dirtied surroundings
     old = self.fov[r][c]
