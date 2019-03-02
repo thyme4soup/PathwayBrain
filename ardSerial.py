@@ -57,24 +57,17 @@ Joint references:
 if __name__ == '__main__':
 
   print("Starting ardSerial...")
-  write_read('k', "balance")
-  '''
   write_read('k',"sit")
   time.sleep(1)
   write_read('k', "zero")
   time.sleep(1)
   
-  for joint in range(17):
-    for i in range(4):
-      for a in np.arange(0, 2 * math.pi, 0.2):
-        angle = math.sin(a) * 30
-        write_read('m', "{} {}".format(joint, angle))
-        time.sleep(0.04)
-    write_read('k',"sit")
-    time.sleep(1)
-    write_read('k', "zero")
-    time.sleep(1)
-  '''
+  for i in range(4):
+    joint = 0
+    for a in np.arange(0, 2 * math.pi, 0.2):
+      angle = math.sin(a) * 30
+      write_read('m', "{} {}".format(joint, angle))
+      time.sleep(0.04)
 
   print("ardSerial finished")
             
