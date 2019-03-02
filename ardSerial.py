@@ -70,6 +70,8 @@ if __name__ == '__main__':
       time.sleep(0.04)
 
   from VisualsTest import VisionTracker
+  import random
+  
   vt = VisionTracker(
     (-30, 30),
     (-30, 30),
