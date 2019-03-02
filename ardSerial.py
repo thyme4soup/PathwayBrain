@@ -87,9 +87,10 @@ if __name__ == '__main__':
       vt.update_val(ny, np, random.randint(1, 5))
       ny, np = vt.get_next_target(ny, np)
       write_read('m', "{} {}".format(0, ny))
+      time.sleep(0.1)
       write_read('m', "{} {}".format(1, np))
       # vt.visualize()
-      time.sleep(0.2)
+      time.sleep(0.1)
       
   print("ardSerial finished")
             
