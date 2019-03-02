@@ -69,6 +69,26 @@ if __name__ == '__main__':
       write_read('m', "{} {}".format(joint, angle))
       time.sleep(0.04)
 
+  from VisualsTest import VisionTracker
+  vt = VisionTracker(
+    (-30, 30),
+    (-30, 30),
+    yaw_step = 5,
+    pitch_step = 5,
+    repaint_tolerance=2)
+
+  vt.visualize()
+
+  ny, np = vt.get_next_target(0, 0)
+  while True:
+    for i in range(500):
+      vt.update_val(ny, np, random.randint(1, 5))
+      ny, np = vt.get_next_target(ny, np)
+      write_read('m', "{} {}".format(0, ny))
+      write_read('m', "{} {}".format(1, np))
+      # vt.visualize()
+      time.sleep(0.2)
+      
   print("ardSerial finished")
             
             
