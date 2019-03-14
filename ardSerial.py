@@ -21,6 +21,7 @@ def serialWriteByte(token, var=""):
 
   if token == 'c' or token == 't':  # data
     instrStr = token + str(var[0]) + ',' + str(var[1]) + '\n'
+    instrStr = instrStr.encode()
   elif token == 'l':  # use binary to reduce packet size
     ser.write(('l' + str(len(var))).encode())
     print(var)
@@ -28,7 +29,7 @@ def serialWriteByte(token, var=""):
   elif token == 'w' or token == 'k' or token == 'm':
     instrStr = (token + var + "\n").encode()
   else:
-    instrStr = token
+    instrStr = token.encode()
   ser.write(instrStr)
     
 def write_read(token, var=""):
