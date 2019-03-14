@@ -46,6 +46,13 @@ def tups_to_angles(angles):
     lst[servo] = angle
   return lst
 
+def dist_from_resp(resp):
+  words = resp.split(' ')
+  if "Distance:" in words[0]:
+    return int(words[1])
+  else:
+    return -1
+
     
 '''
 Joint references:
@@ -84,7 +91,8 @@ if __name__ == '__main__':
   ny, np = vt.get_next_target(0, 0)
   while True:
     for i in range(500):
-      vt.update_val(ny, np, random.randint(1, 5))
+      dist = dist_from_resp(write_read('e', ""))
+      vt.update_val(ny, np, dist)
       ny, np = vt.get_next_target(ny, np)
       write_read('m', "{} {}".format(0, ny))
       time.sleep(0.1)
