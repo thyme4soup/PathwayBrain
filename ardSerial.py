@@ -87,11 +87,10 @@ if __name__ == '__main__':
     pitch_step = 5,
     repaint_tolerance=0)
 
-  vt.visualize()
-
   ny, np = vt.get_next_target(0, 0)
   for i in range(150):
-    dist = dist_from_resp(write_read('e', ""))
+    resp = write_read('e', "")
+    dist = dist_from_resp(resp)
     vt.update_val(ny, np, dist)
     time.sleep(0.1)
     ny, np = vt.get_next_target(ny, np)
@@ -100,6 +99,9 @@ if __name__ == '__main__':
     write_read('m', "{} {}".format(1, np))
     # vt.visualize()
     time.sleep(0.1)
+  
+  print(resp)
+  vt.visualize()
   import png
   png.from_array(vt.fov, 'L').save("fov.png")
       
