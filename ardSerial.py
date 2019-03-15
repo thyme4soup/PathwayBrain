@@ -33,10 +33,15 @@ def serialWriteByte(token, var=""):
   ser.write(instrStr)
     
 def write_read(token, var=""):
+  # clear serial buffer
+  while ser.in_waiting:
+    ser.readline()
   serialWriteByte(token, var)
+  # wait for serial
   while not ser.in_waiting:
     pass
   s = ""
+  # read serial buffer
   while ser.in_waiting:
     x = ser.readline()
     if x != "":
