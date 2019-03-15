@@ -40,6 +40,7 @@ def write_read(token, var=""):
   # wait for serial
   while not ser.in_waiting:
     pass
+  time.sleep(0.1)
   s = ""
   # read serial buffer
   while ser.in_waiting:
