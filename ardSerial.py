@@ -34,6 +34,7 @@ def serialWriteByte(token, var=""):
     
 def write_read(token, var=""):
   serialWriteByte(token, var)
+  time.sleep(0.1)
   s = ""
   while ser.in_waiting:
     x = ser.readline()
@@ -93,10 +94,8 @@ if __name__ == '__main__':
     print(resp)
     dist = dist_from_resp(resp)
     vt.update_val(ny, np, dist)
-    time.sleep(0.1)
     ny, np = vt.get_next_target(ny, np)
     write_read('m', "{} {}".format(0, ny))
-    time.sleep(0.1)
     write_read('m', "{} {}".format(1, np))
     # vt.visualize()
     time.sleep(0.1)
