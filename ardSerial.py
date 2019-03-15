@@ -52,7 +52,7 @@ def dist_from_resp(resp):
   if "Distance:" in words[0]:
     return int(words[1])
   else:
-    return -1
+    return 0
 
     
 '''

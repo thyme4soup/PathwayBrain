@@ -29,7 +29,7 @@ class VisionTracker:
     #Globals setup
     rows = ((self.pitch_max - self.pitch_min) // self.pitch_step)
     cols = ((self.yaw_max - self.yaw_min) // self.yaw_step)
-    self.fov = [[None for j in range(cols)] for i in range(rows)]
+    self.fov = [[0 for j in range(cols)] for i in range(rows)]
     self.cov = (rows/2, cols/2)
     self.dirtied = ([], [])
     self.fov_lock = threading.Lock()
@@ -40,7 +40,7 @@ class VisionTracker:
   # For debugging
   def visualize(self):
     for row in self.fov:
-      print(' '.join(['x' if x == None else str(x) for x in row]))
+      print(' '.join(['x' if x == 0 else str(x) for x in row]))
     print()
 
     
