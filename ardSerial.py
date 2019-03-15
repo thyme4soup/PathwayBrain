@@ -90,17 +90,16 @@ if __name__ == '__main__':
   vt.visualize()
 
   ny, np = vt.get_next_target(0, 0)
-  while True:
-    for i in range(100):
-      dist = dist_from_resp(write_read('e', ""))
-      vt.update_val(ny, np, dist)
-      time.sleep(0.1)
-      ny, np = vt.get_next_target(ny, np)
-      write_read('m', "{} {}".format(0, ny))
-      time.sleep(0.1)
-      write_read('m', "{} {}".format(1, np))
-      # vt.visualize()
-      time.sleep(0.1)
+  for i in range(100):
+    dist = dist_from_resp(write_read('e', ""))
+    vt.update_val(ny, np, dist)
+    time.sleep(0.1)
+    ny, np = vt.get_next_target(ny, np)
+    write_read('m', "{} {}".format(0, ny))
+    time.sleep(0.1)
+    write_read('m', "{} {}".format(1, np))
+    # vt.visualize()
+    time.sleep(0.1)
   import png
   png.from_array(vt.fov, 'L').save("fov.png")
       
