@@ -43,7 +43,7 @@ def write_read(token, var=""):
   s = ""
   # read serial buffer
   while ser.in_waiting:
-    x = ser.readline()
+    x = ser.readline().decode()
     if x != "":
       s += x + "\n"
   return s
