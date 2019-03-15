@@ -53,6 +53,7 @@ def tups_to_angles(angles):
 def dist_from_resp(resp):
   words = resp.split(' ')
   try:
+    print(words)
     i = words.indexOf("Distance:")
     return int(words[i + 1])
   except:
