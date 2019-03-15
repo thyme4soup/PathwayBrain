@@ -90,7 +90,7 @@ if __name__ == '__main__':
   vt.visualize()
 
   ny, np = vt.get_next_target(0, 0)
-  for i in range(100):
+  for i in range(150):
     dist = dist_from_resp(write_read('e', ""))
     vt.update_val(ny, np, dist)
     time.sleep(0.1)
