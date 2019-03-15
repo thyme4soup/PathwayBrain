@@ -90,6 +90,7 @@ if __name__ == '__main__':
   ny, np = vt.get_next_target(0, 0)
   for i in range(150):
     resp = write_read('e', "")
+    print(resp)
     dist = dist_from_resp(resp)
     vt.update_val(ny, np, dist)
     time.sleep(0.1)
@@ -100,7 +101,6 @@ if __name__ == '__main__':
     # vt.visualize()
     time.sleep(0.1)
   
-  print(resp)
   vt.visualize()
   import png
   png.from_array(vt.fov, 'L').save("fov.png")
