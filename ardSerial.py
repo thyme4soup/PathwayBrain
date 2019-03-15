@@ -34,7 +34,8 @@ def serialWriteByte(token, var=""):
     
 def write_read(token, var=""):
   serialWriteByte(token, var)
-  time.sleep(0.1)
+  while not ser.in_waiting():
+    pass
   s = ""
   while ser.in_waiting:
     x = ser.readline()
@@ -75,7 +76,7 @@ if __name__ == '__main__':
     joint = 0
     for a in np.arange(0, 2 * math.pi, 0.2):
       angle = math.sin(a) * 30
-      write_read('m', "{} {}".format(joint, angle))
+      serialWriteByte('m', "{} {}".format(joint, angle))
       time.sleep(0.04)
 
   from VisualsTest import VisionTracker
