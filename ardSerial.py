@@ -34,11 +34,18 @@ def serialWriteByte(token, var=""):
     
 def write_read(token, var=""):
   # clear serial buffer
-  ser.read(ser.inWaiting())
+  while ser.in_waiting:
+    ser.readline()
   serialWriteByte(token, var)
   # wait for serial
-  time.sleep(0.5)
-  s = ser.read(ser.inWaiting())
+  while not ser.in_waiting:
+    pass
+  s = ""
+  # read serial buffer
+  while ser.in_waiting:
+    x = ser.readline()
+    if x != "":
+      s += x + "\n"
   return s
 
 def tups_to_angles(angles):
