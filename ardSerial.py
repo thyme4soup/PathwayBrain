@@ -34,7 +34,7 @@ def serialWriteByte(token, var=""):
     
 def write_read(token, var=""):
   serialWriteByte(token, var)
-  while not ser.in_waiting():
+  while not ser.in_waiting:
     pass
   s = ""
   while ser.in_waiting:
@@ -68,9 +68,9 @@ Joint references:
 if __name__ == '__main__':
 
   print("Starting ardSerial...")
-  write_read('k',"sit")
+  serialWriteByte('k',"sit")
   time.sleep(1)
-  write_read('k', "zero")
+  serialWriteByte('k', "zero")
   time.sleep(1)
   
   for i in range(4):
