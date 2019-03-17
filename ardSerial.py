@@ -52,8 +52,11 @@ def tups_to_angles(angles):
 
 def dist_from_resp(resp):
   words = resp.split(' ')
-  if "Distance:" in words[0]:
-    return int(words[1])
+  i = -1
+  while not "Distance:" in words[i]:
+    i++
+  if i != -1:
+    return int(words[i + 1])
   else:
     return 0
 
@@ -92,9 +95,7 @@ if __name__ == '__main__':
 
   ny, np = vt.get_next_target(0, 0)
   for i in range(150):
-    resp = write_read('e', "")
-    print(resp)
-    dist = dist_from_resp(resp)
+    dist = dist_from_resp(write_read('e', ""))
     vt.update_val(ny, np, dist)
     ny, np = vt.get_next_target(ny, np)
     time.sleep(0.1)
